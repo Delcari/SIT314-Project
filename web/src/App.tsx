@@ -1,51 +1,27 @@
-import React, { useState } from "react";
-import {
-  Button,
-  ButtonGroup,
-  Container,
-  Row,
-  InputGroup,
-  FormControl,
-} from "react-bootstrap";
-import Navigation from "./components/Navigation";
+import React from 'react';
+import Navbar from './components/Navigation';
+import {BrowserRouter, Switch, Route } from 'react-router-dom';
+import Login from './pages/Login';
+import About from './pages/About';
+import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
+import Configure from './pages/Configure';
 
 function App() {
   return (
-    <div>
-      <Container fluid="sm">
-        <h1>login</h1>
-        <Row>
-          <InputGroup className="mb-3">
-            <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
-            <FormControl
-              placeholder="username"
-              aria-label="username"
-              aria-describedby="basic-addon1"
-            />
-          </InputGroup>
-        </Row>
-        <Row>
-          <InputGroup className="mb-3">
-            <FormControl placeholder="password" aria-label="password" />
-          </InputGroup>
-        </Row>
-        <Row>
-          <InputGroup className="mb-3">
-            <FormControl
-              placeholder="confirm password"
-              aria-label="confirm password"
-            />
-          </InputGroup>
-        </Row>
-        <Row>
-          <ButtonGroup aria-label="Basic example">
-            <Button variant="primary">login</Button>
-            <Button variant="secondary">register</Button>
-          </ButtonGroup>
-        </Row>
-      </Container>
+    <BrowserRouter>
+    <div className="pt-20">
+      <Navbar />
+      <Switch>
+        <Route path="/login" component={Login} exact />
+        <Route path="/register" component={Register} exact />
+        <Route path="/configure" component={Configure} exact />
+        <Route path="/dashboard" component={Dashboard} exact />
+        <Route path="/about" component={About} exact />
+      </Switch>
     </div>
-  );
+    </BrowserRouter>
+  )
 }
 
-export default App;
+export default App

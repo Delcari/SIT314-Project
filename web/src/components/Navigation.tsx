@@ -13,7 +13,7 @@ function Navigation() {
             <Nav.Link href="/about">about</Nav.Link>
           </Nav>
           <Nav>
-            <Nav.Link href="#deets">login</Nav.Link>
+            <Nav.Link href="/login">login</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
