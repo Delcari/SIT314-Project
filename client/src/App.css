@@ -1,0 +1,73 @@
+.some-page-wrapper {
+  margin: 15px;
+  background-color: red;
+}
+
+button {
+  align-self: center;
+  width:200px;
+  height:50px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* flex-wrap: wrap;*/
+  
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  /* align-items: center; */
+  /* flex-basis: 100%;
+  flex: 1; */
+}
+.container {
+  margin: auto;
+  width: 50%;
+}
+
+
+
+.globe {
+    height: 200px;
+    width: 200px;
+    background-color: yellow;
+    border-radius: 50%;
+    border: 5px solid black;
+}
+
+.scrollbox {
+  border: 1px solid black;
+  background-color: slategray;
+  width:450px;
+  height:200px;
+  overflow:auto;
+}
+
+p {
+  margin: 0;
+}
+h1 {
+  margin: 0;
+}
+h2 {
+  margin: 0;
+}
+h3 {
+  margin: 0;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
