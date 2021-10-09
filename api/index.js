@@ -1,10 +1,31 @@
 const Koa = require("koa");
-var test = require('./routes/test.js');
+var rTest = require('./routes/test.js');
+var rUser = require('./routes/user.js')
+var rLight = require('./routes/light.js')
+const mongoose = require("mongoose");
+const bodyParser = require('koa-bodyparser');
 
 const port = 3000;
-const app = new Koa();
 
-app.use(test.routes());
+host = process.env.DB_HOST;
+user = process.env.DB_USER;
+password = process.env.DB_PASS;
+
+mongoose.connect(
+  `mongodb+srv://${user}:${password}@project.tx22r.mongodb.net/project?retryWrites=true&w=majority`,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }
+);
+mongoose.connection.on("error", console.error);
+
+const app = new Koa();
+app.use(bodyParser())
+app.use(rUser.routes());
+app.use(rLight.routes());
+app.use(rTest.routes());
+
 
 app.listen(port, () =>
   console.log(`The server is running at http://localhost:${port}/`)
