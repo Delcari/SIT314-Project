@@ -42,6 +42,7 @@ client.on('message', (topic, message) => {
     const id = topic.split('/')[1]
     if (data.source == "client")
     {
+        console.log(data.status)
         updateLight(id, data.status)
     }
 });
@@ -51,6 +52,16 @@ app.post('/light/toggle/:id', (req, res) => {
     const { id } = req.params;
     const topic = `219191105/${id}`;
     const command = `{"source":"web","status":"${status}","request":"false"}`
+    
+    client.publish(topic, command, () => {
+        res.send("published new message");
+    });
+});
+
+app.get('/light/update/:id', (req, res) => {
+    const { id } = req.params;
+    const topic = `219191105/${id}`;
+    const command = `{"source":"web","request":"true"}`
     
     client.publish(topic, command, () => {
         res.send("published new message");
