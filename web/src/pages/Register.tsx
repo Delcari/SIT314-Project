@@ -110,10 +110,10 @@ class Register extends React.Component<Rprops, Rstate> {
                 login
               </Button>
             </ButtonGroup>
-            <Alert variant={this.state.alertVariant}>
-                <Alert.Heading>{this.state.alertMessage}</Alert.Heading>
-              </Alert>
           </Row>
+          <Alert variant={this.state.alertVariant}>
+              <Alert.Heading>{this.state.alertMessage}</Alert.Heading>
+            </Alert>
           </form>
         </Container>
       </div>
