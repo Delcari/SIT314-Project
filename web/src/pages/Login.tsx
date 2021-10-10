@@ -9,12 +9,14 @@ import {
   Alert,
 } from "react-bootstrap";
 import axios from "axios";
+import { Redirect } from "react-router-dom";
 
 type Lstate = {
   username: string;
   password: string;
   alertVariant: "" | "success" | "danger";
   alertMessage: string;
+  redirect: boolean;
 };
 type Lprops = {};
 
@@ -34,7 +36,7 @@ class Login extends React.Component<Lprops, Lstate> {
 
   handleInputChange(event: ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
-    this.setState({ [name]: value } as Lstate);
+    this.setState({ [name]: value } as unknown as Lstate);
   }
 
   handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -50,15 +52,19 @@ class Login extends React.Component<Lprops, Lstate> {
             alertMessage: "login unsuccessful: incorrect username/password",
             alertVariant: "danger",
           });
-        else
-        this.setState({
-          alertMessage: "login successful",
-          alertVariant: "success",
-        });
+        else {
+          sessionStorage.setItem("id", response.data._id);
+          this.setState({
+            redirect: true,
+          });
+        }
       });
   }
 
   render(): JSX.Element {
+    if (this.state.redirect) {
+      return <Redirect to="/dashboard" />;
+    }
     return (
       <div>
         <Container fluid="sm">
@@ -96,10 +102,10 @@ class Login extends React.Component<Lprops, Lstate> {
                   register
                 </Button>
               </ButtonGroup>
-              <Alert variant={this.state.alertVariant}>
-                <Alert.Heading>{this.state.alertMessage}</Alert.Heading>
-              </Alert>
             </Row>
+            <Alert variant={this.state.alertVariant}>
+              <Alert.Heading>{this.state.alertMessage}</Alert.Heading>
+            </Alert>
           </form>
         </Container>
       </div>
