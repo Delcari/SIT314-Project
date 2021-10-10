@@ -6,6 +6,7 @@ import {
   Row,
   InputGroup,
   FormControl,
+  Alert 
 } from "react-bootstrap";
 import axios from "axios";
 
@@ -18,6 +19,8 @@ type cState = {
   room: string;
   users: string[];
   user: string;
+  alertVariant: "" | "success" | "danger";
+  alertMessage: string;
 };
 
 class Configure extends React.Component<cProps, cState> {
@@ -34,8 +37,10 @@ class Configure extends React.Component<cProps, cState> {
     name: "",
     building: "",
     room: "",
-    users: [],
-    user: ""
+    users: [sessionStorage.getItem("id") ?? ""],
+    user: "",
+    alertVariant: "",
+    alertMessage: "",
   };
 
   handleInputChange(event: ChangeEvent<HTMLInputElement>) {
@@ -44,7 +49,9 @@ class Configure extends React.Component<cProps, cState> {
   }
 
   addUser() {
-    this.setState((prevState) => ({ users: [...prevState.users, this.state.user]}));
+    this.setState((prevState) => ({
+      users: [...prevState.users, this.state.user],
+    }));
   }
 
   handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -55,13 +62,20 @@ class Configure extends React.Component<cProps, cState> {
         name: this.state.name,
         building: this.state.building,
         room: this.state.room,
-        status: "on",
+        status: "unknown",
         users: this.state.users,
-        dateAdded: Date.now(),
+        dateAdded: Date().toString(),
       })
       .then((response) => {
         console.log(response.data);
+        this.setState({
+          alertMessage: `Light: ${response.data.id}, successfully added!`,
+          alertVariant: "success",
+        })
       });
+    axios
+      .get(`http://localhost:5001/light/update/${this.state.id}`, {})
+      .then((response) => {});
   }
 
   render(): JSX.Element {
@@ -124,7 +138,11 @@ class Configure extends React.Component<cProps, cState> {
                   value={this.state.user}
                   onChange={this.handleInputChange}
                 />
-                <Button variant="outline-secondary" id="button-addon2" onClick={this.addUser}>
+                <Button
+                  variant="outline-secondary"
+                  id="button-addon2"
+                  onClick={this.addUser}
+                >
                   Add
                 </Button>
               </InputGroup>
@@ -144,6 +162,9 @@ class Configure extends React.Component<cProps, cState> {
                 </Button>
               </ButtonGroup>
             </Row>
+              <Alert variant={this.state.alertVariant}>
+                <Alert.Heading>{this.state.alertMessage}</Alert.Heading>
+              </Alert>
           </form>
         </Container>
       </div>
