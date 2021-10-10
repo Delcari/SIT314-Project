@@ -10,6 +10,9 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 
+const apiPort = import.meta.env.VITE_API_PORT;
+const api = import.meta.env.VITE_API;
+
 type Rstate = {
   username: string;
   password: string;
@@ -43,7 +46,7 @@ class Register extends React.Component<Rprops, Rstate> {
   handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     axios
-      .post("http://localhost:5000/user/add", {
+      .post(`http://${api}:${apiPort}/user/add`, {
         username: this.state.username,
         password: this.state.password,
       })

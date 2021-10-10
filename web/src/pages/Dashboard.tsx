@@ -3,6 +3,11 @@ import { Container, Table, Button, Col } from "react-bootstrap";
 import axios from "axios";
 import TableRow from "./TableRow";
 
+const apiPort = import.meta.env.VITE_API_PORT;
+const api = import.meta.env.VITE_API;
+
+
+console.log(apiPort)
 type dProps = {};
 type dState = {
   data:
@@ -33,7 +38,7 @@ class Dashboard extends React.Component<dProps, dState> {
     console.log("getting data")
     let id = sessionStorage.getItem('id')
     if (id)
-    axios.get(`http://localhost:5000/light/user/${id}`, {}).then((response) => {
+    axios.get(`http://${api}:${apiPort}/light/user/${id}`, {}).then((response) => {
       this.setState({
         data: []
       })
@@ -42,7 +47,7 @@ class Dashboard extends React.Component<dProps, dState> {
     });
   });
   else
-  axios.get(`http://localhost:5000/light`, {}).then((response) => {
+  axios.get(`http://${api}:${apiPort}/light`, {}).then((response) => {
     this.setState({
       data: []
     })

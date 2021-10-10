@@ -11,6 +11,9 @@ import {
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 
+const apiPort = import.meta.env.VITE_API_PORT;
+const api = import.meta.env.VITE_API;
+
 type Lstate = {
   username: string;
   password: string;
@@ -32,6 +35,7 @@ class Login extends React.Component<Lprops, Lstate> {
     password: "",
     alertVariant: "",
     alertMessage: "",
+    redirect: false
   };
 
   handleInputChange(event: ChangeEvent<HTMLInputElement>) {
@@ -42,11 +46,11 @@ class Login extends React.Component<Lprops, Lstate> {
   handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     axios
-      .post("http://localhost:5000/user/auth", {
+      .post(`http://${api}:${apiPort}/user/auth`, {
         username: this.state.username,
         password: this.state.password,
       })
-      .then((response) => {
+      .then((response : any) => {
         if (!response.data.username)
           this.setState({
             alertMessage: "login unsuccessful: incorrect username/password",

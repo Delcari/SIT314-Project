@@ -10,6 +10,9 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 
+const mqttApi = import.meta.env.VITE_MQTT_API;
+const mqttApiPort = import.meta.env.VITE_MQTT_API_PORT;
+
 type tState = {
   status: string;
 };
@@ -36,7 +39,7 @@ class TableRow extends React.Component<tProps, tState> {
 
   toggleLight() {
     axios
-      .post(`http://localhost:5001/light/toggle/${this.props.id}`, {
+      .post(`http://${mqttApi}:${mqttApiPort}/light/toggle/${this.props.id}`, {
         status: this.state.status == "on" ? "off" : "on",
       })
       .then((response) => {

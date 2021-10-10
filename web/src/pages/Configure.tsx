@@ -10,6 +10,11 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 
+const apiPort = import.meta.env.VITE_API_PORT;
+const api = import.meta.env.VITE_API;
+const mqttApi = import.meta.env.VITE_MQTT_API;
+const mqttApiPort = import.meta.env.VITE_MQTT_API_PORT;
+
 type cProps = {};
 
 type cState = {
@@ -57,7 +62,7 @@ class Configure extends React.Component<cProps, cState> {
   handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     axios
-      .post("http://localhost:5000/light/add", {
+      .post(`http://${api}:${apiPort}/light/add`, {
         id: this.state.id,
         name: this.state.name,
         building: this.state.building,
@@ -74,7 +79,7 @@ class Configure extends React.Component<cProps, cState> {
         })
       });
     axios
-      .get(`http://localhost:5001/light/update/${this.state.id}`, {})
+      .get(`http://${mqttApi}:${mqttApiPort}/light/update/${this.state.id}`, {})
       .then((response) => {});
   }
 
