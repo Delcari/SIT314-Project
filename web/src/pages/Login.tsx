@@ -92,7 +92,7 @@ class Login extends React.Component<Lprops, Lstate> {
                 <Button variant="primary" type="submit" value="Submit">
                   login
                 </Button>
-                <Button variant="secondary" href="/register" name="username">
+                <Button variant="secondary" href="/register">
                   register
                 </Button>
               </ButtonGroup>
