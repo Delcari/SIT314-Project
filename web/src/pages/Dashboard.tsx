@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Container, Table, Button } from "react-bootstrap";
 import axios from "axios";
+import TableRow from "./TableRow";
 
 type dProps = {};
 type dState = {
@@ -8,7 +9,7 @@ type dState = {
     | [
         {
           id: string;
-          group: string;
+          name: string;
           building: string;
           room: string;
           status: string;
@@ -44,7 +45,7 @@ class Dashboard extends React.Component<dProps, dState> {
             <thead>
               <tr>
                 <th>id</th>
-                <th>group</th>
+                <th>name</th>
                 <th>building</th>
                 <th>room</th>
                 <th>status</th>
@@ -54,24 +55,14 @@ class Dashboard extends React.Component<dProps, dState> {
             </thead>
             <tbody>
               {this.state.data.map((item, index) => (
-                <tr>
-                  <th>{`${item.id}`}</th>
-                  <th>{`${item.group}`}</th>
-                  <th>{`${item.building}`}</th>
-                  <th>{`${item.room}`}</th>
-                  <th>{`${item.status}`}</th>
-                  <th>{`${item.dateAdded}`}</th>
-                  <th>
-                    <Button
-                      type="checkbox"
-                      variant={
-                        item.status != "on" ? "outline-success" : "outline-danger"
-                      }
-                    >
-                      toggle
-                    </Button>
-                  </th>
-                </tr>
+                <TableRow
+                  id={item.id}
+                  name={item.name}
+                  building={item.building}
+                  room={item.room}
+                  status={item.status}
+                  dateAdded={item.dateAdded}
+                />
               ))}
             </tbody>
           </Table>
