@@ -3,7 +3,7 @@ var User = require("../models/user");
 module.exports = new (class UserController {
   async findById(ctx) {
     try {
-      const user = await User.findOne({ id: ctx.params.id });
+      const user = await User.findOne({ _id: ctx.params.id });
       if (!user) {
         ctx.throw(404);
       }
