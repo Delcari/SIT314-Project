@@ -13,7 +13,7 @@ user = process.env.DB_USER;
 password = process.env.DB_PASS;
 
 mongoose.connect(
-  `mongodb+srv://${user}:${password}@project.tx22r.mongodb.net/project?retryWrites=true&w=majority`,
+  `mongodb+srv://${user}:${password}@${host}/project?retryWrites=true&w=majority`,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true
