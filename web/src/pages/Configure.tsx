@@ -62,7 +62,7 @@ class Configure extends React.Component<cProps, cState> {
   handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     axios
-      .post(`http://${api}:${apiPort}/light/add`, {
+      .post(`http://${api}:${apiPort}/light/update/${this.state.id}`, {
         id: this.state.id,
         name: this.state.name,
         building: this.state.building,
@@ -74,7 +74,7 @@ class Configure extends React.Component<cProps, cState> {
       .then((response) => {
         console.log(response.data);
         this.setState({
-          alertMessage: `Light: ${response.data.id}, successfully added!`,
+          alertMessage: `Light: ${this.state.id}, successfully added!`,
           alertVariant: "success",
         })
       });
