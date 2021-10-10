@@ -20,6 +20,7 @@ type tProps = {
   room: string;
   status: string;
   dateAdded: string;
+  button: boolean
 };
 
 class TableRow extends React.Component<tProps, tState> {
@@ -56,15 +57,17 @@ class TableRow extends React.Component<tProps, tState> {
         <th>{this.state.status}</th>
         <th>{this.props.dateAdded}</th>
         <th>
+        {!(this.props.button) ? "unavailable" : 
           <Button
-            type="checkbox"
-            variant={
+          type="checkbox"
+          variant={
               this.state.status != "on" ? "outline-success" : "outline-danger"
             }
             onClick={this.toggleLight}
-          >
+            >
             toggle
           </Button>
+        }
         </th>
       </tr>
     );
