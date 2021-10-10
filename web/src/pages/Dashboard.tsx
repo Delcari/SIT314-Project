@@ -1,44 +1,84 @@
 import React, { useState } from "react";
-import { Container, Table } from "react-bootstrap";
+import { Container, Table, Button } from "react-bootstrap";
+import axios from "axios";
 
-function Dashboard() {
-  return (
-    <div>
-      <Container fluid="sm">
-        <h1>dashboard</h1>
-        <Table bordered hover variant="dark">
-          <thead>
-            <tr>
-              <th>id</th>
-              <th>group</th>
-              <th>building</th>
-              <th>room</th>
-              <th>status</th>
-              <th>date added</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>0</td>
-              <td>hallway</td>
-              <td>apt 43</td>
-              <td>kitchen</td>
-              <td>active</td>
-              <td>21:09:21</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>room</td>
-              <td>apt 43</td>
-              <td>dining room</td>
-              <td>inactive</td>
-              <td>21:08:21</td>
-            </tr>
-          </tbody>
-        </Table>
-      </Container>
-    </div>
-  );
+type dProps = {};
+type dState = {
+  data:
+    | [
+        {
+          id: string;
+          group: string;
+          building: string;
+          room: string;
+          status: string;
+          dateAdded: string;
+          users: [];
+        }
+      ]
+    | [];
+};
+class Dashboard extends React.Component<dProps, dState> {
+  constructor(props: dProps) {
+    super(props);
+  }
+
+  state: dState = {
+    data: [],
+  };
+
+  componentDidMount() {
+    axios.get("http://localhost:5000/light", {}).then((response) => {
+      this.setState({
+        data: response.data,
+      });
+    });
+  }
+
+  render(): JSX.Element {
+    return (
+      <div>
+        <Container fluid="sm">
+          <h1>dashboard</h1>
+          <Table bordered hover variant="dark">
+            <thead>
+              <tr>
+                <th>id</th>
+                <th>group</th>
+                <th>building</th>
+                <th>room</th>
+                <th>status</th>
+                <th>date added</th>
+                <th>toggle</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.data.map((item, index) => (
+                <tr>
+                  <th>{`${item.id}`}</th>
+                  <th>{`${item.group}`}</th>
+                  <th>{`${item.building}`}</th>
+                  <th>{`${item.room}`}</th>
+                  <th>{`${item.status}`}</th>
+                  <th>{`${item.dateAdded}`}</th>
+                  <th>
+                    <Button
+                      type="checkbox"
+                      variant={
+                        item.status != "on" ? "outline-success" : "outline-danger"
+                      }
+                    >
+                      toggle
+                    </Button>
+                  </th>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </Container>
+      </div>
+    );
+  }
 }
 
 export default Dashboard;
