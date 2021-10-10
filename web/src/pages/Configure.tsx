@@ -13,7 +13,7 @@ type cProps = {};
 
 type cState = {
   id: string;
-  group: string;
+  name: string;
   building: string;
   room: string;
   users: string[];
@@ -31,7 +31,7 @@ class Configure extends React.Component<cProps, cState> {
 
   state: cState = {
     id: "",
-    group: "",
+    name: "",
     building: "",
     room: "",
     users: [],
@@ -52,7 +52,7 @@ class Configure extends React.Component<cProps, cState> {
     axios
       .post("http://localhost:5000/light/add", {
         id: this.state.id,
-        group: this.state.group,
+        name: this.state.name,
         building: this.state.building,
         room: this.state.room,
         status: "on",
@@ -84,10 +84,10 @@ class Configure extends React.Component<cProps, cState> {
             <Row>
               <InputGroup className="mb-3">
                 <FormControl
-                  placeholder="group"
-                  aria-label="group"
-                  name="group"
-                  value={this.state.group}
+                  placeholder="name"
+                  aria-label="name"
+                  name="name"
+                  value={this.state.name}
                   onChange={this.handleInputChange}
                 />
               </InputGroup>
