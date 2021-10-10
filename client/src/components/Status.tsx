@@ -4,6 +4,10 @@ import Log from "./Log";
 import Light from "./Light";
 import axios from "axios";
 
+
+const port = process.env.REACT_APP_API_PORT
+const api = process.env.REACT_APP_API
+
 const Status = () => {
   const { message, connectionStatus } = useSubscription(["219191105/1/#"]);
   const [messages, setMessages] = useState<string[]>([]);
@@ -26,7 +30,7 @@ const Status = () => {
   };
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/light/1`, {}).then((response : any) => {
+    axios.get(`http://${api}:${port}/light/1`, {}).then((response : any) => {
       setActive(response.data.status == "on" ? true : false)
     });
   },[])
