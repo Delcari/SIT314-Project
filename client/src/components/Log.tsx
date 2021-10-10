@@ -14,8 +14,8 @@ class Log extends React.Component<Lprops> {
   render(): JSX.Element {
     return (
           <div className="scrollbox">
-            {this.props.log.map((x) => ( 
-                <body>{x}</body>
+            {this.props.log.map((msg) => ( 
+                <body>{msg}</body>
                ))}
             </div>
         );

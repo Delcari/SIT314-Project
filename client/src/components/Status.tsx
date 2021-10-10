@@ -7,9 +7,10 @@ import axios from "axios";
 
 const port = process.env.REACT_APP_API_PORT
 const api = process.env.REACT_APP_API
+const id = process.env.REACT_APP_ID
 
 const Status = () => {
-  const { message, connectionStatus } = useSubscription(["219191105/1/#"]);
+  const { message, connectionStatus } = useSubscription([`219191105/${id}/#`]);
   const [messages, setMessages] = useState<string[]>([]);
   const [active, setActive] = useState<boolean>(false);
   const { client } = useMqttState();
@@ -25,12 +26,12 @@ const Status = () => {
       request: request,
     };
     if (client) {
-      client.publish("219191105/1", JSON.stringify(pMessage));
+      client.publish(`219191105/${id}`, JSON.stringify(pMessage));
     }
   };
 
   useEffect(() => {
-    axios.get(`http://${api}:${port}/light/1`, {}).then((response : any) => {
+    axios.get(`http://${api}:${port}/light/${id}`, {}).then((response : any) => {
       setActive(response.data.status == "on" ? true : false)
     });
   },[])
