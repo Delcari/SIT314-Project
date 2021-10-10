@@ -6,11 +6,15 @@ import {
   Row,
   InputGroup,
   FormControl,
+  Alert,
 } from "react-bootstrap";
+import axios from "axios";
 
 type Lstate = {
   username: string;
   password: string;
+  alertVariant: "" | "success" | "danger";
+  alertMessage: string;
 };
 type Lprops = {};
 
@@ -24,6 +28,8 @@ class Login extends React.Component<Lprops, Lstate> {
   state: Lstate = {
     username: "",
     password: "",
+    alertVariant: "",
+    alertMessage: "",
   };
 
   handleInputChange(event: ChangeEvent<HTMLInputElement>) {
@@ -33,7 +39,23 @@ class Login extends React.Component<Lprops, Lstate> {
 
   handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log("A name was submitted:" + this.state.password);
+    axios
+      .post("http://localhost:5000/user/auth", {
+        username: this.state.username,
+        password: this.state.password,
+      })
+      .then((response) => {
+        if (!response.data.username)
+          this.setState({
+            alertMessage: "login unsuccessful: incorrect username/password",
+            alertVariant: "danger",
+          });
+        else
+        this.setState({
+          alertMessage: "login successful",
+          alertVariant: "success",
+        });
+      });
   }
 
   render(): JSX.Element {
@@ -74,6 +96,9 @@ class Login extends React.Component<Lprops, Lstate> {
                   register
                 </Button>
               </ButtonGroup>
+              <Alert variant={this.state.alertVariant}>
+                <Alert.Heading>{this.state.alertMessage}</Alert.Heading>
+              </Alert>
             </Row>
           </form>
         </Container>
