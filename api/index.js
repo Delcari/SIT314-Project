@@ -4,9 +4,10 @@ var rUser = require('./routes/user.js')
 var rLight = require('./routes/light.js')
 const mongoose = require("mongoose");
 const bodyParser = require('koa-bodyparser');
+const cors = require('@koa/cors');
 
-const port = 3000;
 
+port = process.env.PORT
 host = process.env.DB_HOST;
 user = process.env.DB_USER;
 password = process.env.DB_PASS;
@@ -21,6 +22,7 @@ mongoose.connect(
 mongoose.connection.on("error", console.error);
 
 const app = new Koa();
+app.use(cors({ origin: "*" }))
 app.use(bodyParser())
 app.use(rUser.routes());
 app.use(rLight.routes());

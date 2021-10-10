@@ -28,13 +28,15 @@ module.exports = new (class UserController {
   async auth(ctx) {
     try {
       const { username, password } = ctx.request.body;
-      const user = await User.findOne({ username: username, password: password  });
+      let user = await User.findOne({ username: username, password: password });
       if (!user) {
-        ctx.throw(404);
+        user = { success: false };
+        ctx.body = user;
+      } else {
+        ctx.body = user;
       }
-      ctx.body = user;
     } catch (err) {
-      if (err.name === "CastError" || err.name === "NotFoundError") {
+      if (err.name === "CastError") {
         ctx.throw(404);
       }
       ctx.throw(500);
