@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Table, Button } from "react-bootstrap";
+import { Container, Table, Button, Col } from "react-bootstrap";
 import axios from "axios";
 import TableRow from "./TableRow";
 
@@ -22,18 +22,38 @@ type dState = {
 class Dashboard extends React.Component<dProps, dState> {
   constructor(props: dProps) {
     super(props);
+    this.getData = this.getData.bind(this)
   }
 
   state: dState = {
     data: [],
   };
-
-  componentDidMount() {
-    axios.get("http://localhost:5000/light", {}).then((response) => {
+  
+  getData = () => {
+    console.log("getting data")
+    let id = sessionStorage.getItem('id')
+    if (id)
+    axios.get(`http://localhost:5000/light/user/${id}`, {}).then((response) => {
       this.setState({
-        data: response.data,
-      });
+        data: []
+      })
+    this.setState({
+      data: response.data,
     });
+  });
+  else
+  axios.get(`http://localhost:5000/light`, {}).then((response) => {
+    this.setState({
+      data: []
+    })
+  this.setState({
+    data: response.data,
+  });
+});
+
+}
+  componentDidMount() {
+    this.getData()
   }
 
   render(): JSX.Element {
@@ -62,10 +82,12 @@ class Dashboard extends React.Component<dProps, dState> {
                   room={item.room}
                   status={item.status}
                   dateAdded={item.dateAdded}
-                />
+                  button={sessionStorage.getItem('id') ? true : false}
+                  />
               ))}
             </tbody>
           </Table>
+          <Button variant="outline-dark" onClick={this.getData}>reload</Button>
         </Container>
       </div>
     );
