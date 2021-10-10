@@ -29,12 +29,11 @@ const Status = () => {
       setMessages((msgs: string[]) => [...msgs, message?.message as string]);
       let status = JSON.parse(message.message as string);
       if (status.source != "client") {
-        if (status.request == "true") {
-          publishMessage("client", active, false);
-        } else {
+        if (status.request == "false") {
           if (status.status == "on") setActive(true);
           else if (status.status == "off") setActive(false);
-        }
+        } 
+        publishMessage("client", active, false);
       }
     }
   }, [message]);
