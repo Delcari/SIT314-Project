@@ -2,6 +2,7 @@ import { useSubscription, useMqttState } from "mqtt-react-hooks";
 import { useState, useEffect } from "react";
 import Log from "./Log";
 import Light from "./Light";
+import axios from "axios";
 
 const Status = () => {
   const { message, connectionStatus } = useSubscription(["219191105/1/#"]);
@@ -12,7 +13,7 @@ const Status = () => {
   const publishMessage = (
     source: string,
     currentStatus: boolean,
-    request: boolean
+    request: string
   ) => {
     let pMessage = {
       source: source,
@@ -25,15 +26,25 @@ const Status = () => {
   };
 
   useEffect(() => {
+    axios.get(`http://localhost:5000/light/1`, {}).then((response : any) => {
+      setActive(response.data.status == "on" ? true : false)
+    });
+  },[])
+
+  useEffect(() => {
     if (message) {
       setMessages((msgs: string[]) => [...msgs, message?.message as string]);
       let status = JSON.parse(message.message as string);
+      let futureStatus = false
       if (status.source != "client") {
         if (status.request == "false") {
-          if (status.status == "on") setActive(true);
+          if (status.status == "on") {
+            futureStatus = true
+            setActive(true);
+          }
           else if (status.status == "off") setActive(false);
         } 
-        publishMessage("client", active, false);
+        publishMessage("client", futureStatus, "false");
       }
     }
   }, [message]);
@@ -46,7 +57,7 @@ const Status = () => {
       status = false
       setActive(false);
     }
-    publishMessage("client", status, false);
+    publishMessage("client", status, "false");
   };
 
   return (
