@@ -40,6 +40,15 @@ module.exports = new (class LightsController {
     }
   }
 
+  async update(ctx) {
+    try {
+      const light = await Light.updateOne({id: ctx.params.id},(ctx.request.body),{upsert: true});
+      ctx.body = light;
+    } catch (err) {
+      ctx.throw(422);
+    }
+  }
+
   async find(ctx) {
     ctx.body = await Light.find();
   }
