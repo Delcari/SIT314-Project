@@ -16,6 +16,21 @@ module.exports = new (class LightsController {
     }
   }
 
+  async findByUID(ctx) {
+    try {
+      const light = await Light.find({ users: { "$in" : [ctx.params.id]} });
+      if (!light) {
+        ctx.throw(404);
+      }
+      ctx.body = light;
+    } catch (err) {
+      if (err.name === "CastError" || err.name === "NotFoundError") {
+        ctx.throw(404);
+      }
+      ctx.throw(500);
+    }
+  }
+
   async add(ctx) {
     try {
       const light = await new Light(ctx.request.body).save();
