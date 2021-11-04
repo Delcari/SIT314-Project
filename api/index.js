@@ -6,8 +6,7 @@ const mongoose = require("mongoose");
 const bodyParser = require('koa-bodyparser');
 const cors = require('@koa/cors');
 
-
-port = process.env.PORT
+port = process.env.PORT;
 host = process.env.DB_HOST;
 user = process.env.DB_USER;
 password = process.env.DB_PASS;
